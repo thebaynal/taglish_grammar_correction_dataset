@@ -1,0 +1,12 @@
+transformers
+datasets
+torch
+sentencepiece
+accelerate
+pandas
+scikit-learn
+evaluate
+sacrebleu
+matplotlib
+numpy
+jupyter

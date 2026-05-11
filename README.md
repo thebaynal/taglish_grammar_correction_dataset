@@ -1,4 +1,4 @@
-﻿# Dataset Workflow (Taglish Grammar Correction)
+# Dataset Workflow (Taglish Grammar Correction)
 
 Goal: build a **Taglish grammar correction** dataset with paired text:
 
