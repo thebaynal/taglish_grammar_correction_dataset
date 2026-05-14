@@ -1,6 +1,6 @@
 # Taglish Grammar Correction
 
-Taglish Grammar Correction is a Filipino-English code-switching project for correcting grammar, spelling, punctuation, and phrasing while preserving the original tone and meaning.
+Taglish Grammar Correction is a fully runnable Filipino-English code-switching project for correcting grammar, spelling, punctuation, and phrasing while preserving the original tone and meaning.
 
 This repository contains the cleaned project folder, trained model artifacts, inference scripts, and the notebook used to build and evaluate the model.
 
@@ -43,9 +43,9 @@ jupyter notebook taglish_gec_project/taglish_grammar_correction.ipynb
 
 The model is trained with a LoRA fine-tuning setup on a decoder-only instruction-tuning pipeline. It is designed to make minimal, meaning-preserving corrections rather than over-translating Taglish into pure Tagalog or English.
 
-The training data comes from the Hugging Face dataset `mggy/taglish-socialmedia-dataset`, which was filtered and modified into labeled noisy/clean Taglish pairs.
+The training data comes from the Hugging Face dataset [mggy/taglish-socialmedia-dataset](https://huggingface.co/datasets/mggy/taglish-socialmedia-dataset), which was filtered and modified into labeled noisy/clean Taglish pairs.
 
-The default scripts resolve the model path relative to the project folder, so the repository can be cloned and run without editing hardcoded paths.
+The default scripts resolve the model path relative to the project folder, and the trained model is included in the repository, so it can be cloned and run without editing hardcoded paths.
 
 ## Repository Layout
 

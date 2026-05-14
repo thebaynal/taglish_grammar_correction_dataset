@@ -2,6 +2,8 @@
 
 This project trains a Taglish grammar-correction model that rewrites noisy Filipino-English code-switched text into a cleaner, more natural form while preserving meaning, tone, slang, and code-mixing.
 
+Everything needed for inference is included in the repository, so the project is runnable after installing dependencies.
+
 The final model was trained in [taglish_grammar_correction.ipynb](taglish_grammar_correction.ipynb) and saved to [taglish_gec_model](taglish_gec_model).
 
 ## What the Model Does
@@ -18,7 +20,7 @@ It is designed to correct text without over-translating or making it sound too f
 
 ## Training Data
 
-The model was built from the Hugging Face dataset `mggy/taglish-socialmedia-dataset`, which was filtered and modified into labeled noisy/clean Taglish pairs.
+The model was built from the Hugging Face dataset [mggy/taglish-socialmedia-dataset](https://huggingface.co/datasets/mggy/taglish-socialmedia-dataset), which was filtered and modified into labeled noisy/clean Taglish pairs.
 
 The working copy used in the notebook lives in [dataset/dataset_final (1).csv](dataset/dataset_final%20(1).csv).
 
