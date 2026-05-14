@@ -1,0 +1,9 @@
+{
+  "model_name": "mistralai/Mistral-7B-Instruct-v0.2",
+  "training_epochs": 3,
+  "learning_rate": 0.0002,
+  "batch_size": 8,
+  "dataset_size": 3397,
+  "training_date": "2026-05-13 00:22:17.519688",
+  "taglish_preservation": true
+}

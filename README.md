@@ -1,124 +1,79 @@
-﻿# Dataset Workflow (Taglish Grammar Correction)
+# Taglish Grammar Correction
 
-Goal: build a **Taglish grammar correction** dataset with paired text:
+Taglish Grammar Correction is a Filipino-English code-switching project for correcting grammar, spelling, punctuation, and phrasing while preserving the original tone and meaning.
 
-- **noisy_text** = original / possibly-incorrect Taglish (model input)
-- **clean_text** = corrected Taglish (model target)
+This repository contains the cleaned project folder, trained model artifacts, inference scripts, and the notebook used to build and evaluate the model.
 
-This keeps annotation work minimal: you only need to fill in `clean_text`.
+## What’s In This Repo
 
-> Note: The file `dataset_final.jsonl` in this folder is actually a **JSON array** (starts with `[` and ends with `]`), not true JSONL.
+- A fine-tuned Taglish grammar correction model under [taglish_gec_project/taglish_gec_model](taglish_gec_project/taglish_gec_model)
+- A reusable inference helper in [taglish_gec_project/standalone_inference.py](taglish_gec_project/standalone_inference.py)
+- An interactive CLI version in [taglish_gec_project/interactive_corrector.py](taglish_gec_project/interactive_corrector.py)
+- A quick test script in [taglish_gec_project/test_model.py](taglish_gec_project/test_model.py)
+- The training and evaluation notebook in [taglish_gec_project/taglish_grammar_correction.ipynb](taglish_gec_project/taglish_grammar_correction.ipynb)
+- A project-specific README with deeper implementation details in [taglish_gec_project/README.md](taglish_gec_project/README.md)
 
----
+## Quick Start
 
-## Files
+1. Install dependencies:
 
-### Raw (do not edit)
-- `dataset_final.jsonl`  
-  **Format:** JSON array of objects  
-  This is the source of truth.
-
-### Annotation (editable)
-- `dataset_final.csv`  
-  Generated from the raw JSON array. Edit in Excel / Google Sheets.
-
-### Training-ready output (generated later)
-- `dataset_annotated.jsonl`  
-  True JSONL (one object per line) containing at least:
-  - `id`
-  - `noisy_text`
-  - `clean_text`
-
-Splits (train/val/test) will be created **automatically in code**, so annotators don’t need to deal with `split`.
-
----
-
-## 1) Convert raw JSON array → CSV (for annotation)
-
-From the project root (folder containing `FINAL_PROJECT/`):
-
-1. Install dependency:
 ```bash
-pip install pandas
+pip install -r taglish_gec_project/requirements.txt
 ```
 
-2. Convert to CSV:
+2. Run a one-off correction:
+
 ```bash
-python FINAL_PROJECT/dataset/json_to_csv.py
+python taglish_gec_project/standalone_inference.py --text "wala masama pero may problem"
 ```
 
-Output:
-- `FINAL_PROJECT/dataset/dataset_final.csv`
+3. Use interactive mode:
 
----
-
-## 2) Annotate (minimal work)
-
-Open `dataset_final.csv` and keep the sheet simple.
-
-### Columns you should annotate
-- `clean_text` (**required**)
-
-### Columns you should NOT change
-- `id`
-- `noisy_text` (or `text`, depending on your CSV)
-
-### Minimal annotation rules (Taglish GEC)
-- **Do NOT translate** the sentence into pure Tagalog or pure English.
-- Preserve the **Taglish code-switching style**.
-- Make **minimal edits**:
-  - capitalization and punctuation
-  - obvious spelling fixes
-  - clear English grammar errors inside English segments
-- Preserve meaning and tone. Don’t add/remove facts.
-
-### How to mark progress (optional)
-If you want an easy progress tracker, add a `status` column in the sheet:
-- `todo | doing | done`
-
-But it’s optional.
-
----
-
-## 3) Export annotated CSV
-
-After annotation:
-- Export/download the sheet as **CSV** (UTF-8)
-- Overwrite `FINAL_PROJECT/dataset/dataset_final.csv` (or save as a new file)
-
----
-
-## 4) Convert annotated CSV → training JSONL
-
-Run:
 ```bash
-python FINAL_PROJECT/dataset/csv_to_jsonl.py
+python taglish_gec_project/interactive_corrector.py
 ```
 
-Output:
-- `FINAL_PROJECT/dataset/dataset_annotated.jsonl`
+4. Open the notebook:
 
-This file is what you feed into training/evaluation scripts.
+```bash
+jupyter notebook taglish_gec_project/taglish_grammar_correction.ipynb
+```
 
----
+## Project Summary
 
-## 5) Train/Val/Test split (no manual work)
+The model is trained with a LoRA fine-tuning setup on a decoder-only instruction-tuning pipeline. It is designed to make minimal, meaning-preserving corrections rather than over-translating Taglish into pure Tagalog or English.
 
-We do **not** store `split` in the annotation CSV to reduce human work.
+The training data comes from the Hugging Face dataset `mggy/taglish-socialmedia-dataset`, which was filtered and modified into labeled noisy/clean Taglish pairs.
 
-Instead, splitting is done automatically in code, for example:
-- train 90%
-- val 5%
-- test 5%
+The default scripts resolve the model path relative to the project folder, so the repository can be cloned and run without editing hardcoded paths.
 
-(Implement in the training pipeline or a separate `split_dataset.py` script.)
+## Repository Layout
 
----
+```text
+taglish_gec_project/
+  dataset/
+  model_checkpoints/
+  taglish_gec_model/
+  standalone_inference.py
+  interactive_corrector.py
+  test_model.py
+  taglish_grammar_correction.ipynb
+  requirements.txt
+  README.md
+```
 
-## Troubleshooting
+## Model Notes
 
-### JSONDecodeError during conversion
-Make sure you are using `json_to_csv.py` (loads a JSON array) and not a line-by-line JSONL loader.
+The project focuses on common Taglish correction cases such as:
 
-### Emojis look broken
-Ensure your editor keeps UTF-8 encoding. Google Sheets is usually fine.
+- grammar markers like `ng` and `nang`
+- `din` and `rin`, `daw` and `raw`
+- capitalization and punctuation
+- Taglish verb forms such as `nag-drive` or `mag-drawing`
+- spelling fixes that preserve code-switching style
+
+For the full training details, example outputs, and implementation notes, see [taglish_gec_project/README.md](taglish_gec_project/README.md).
+
+## Before Publishing
+
+Review the size of the model and checkpoint files before pushing the repository publicly. If you want a lighter public repo, move large artifacts to Git LFS or keep only the final model directory.

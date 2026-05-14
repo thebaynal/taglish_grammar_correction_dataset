@@ -1,0 +1,12 @@
+# Core dependencies for backend integration
+
+# ML/NLP
+torch==2.5.1+cu121  # GPU support (CUDA 12.1)
+transformers==5.8.0
+peft==0.19.1
+
+# Optional: For specific frameworks
+# django>=4.0  # If using Django
+# fastapi>=0.104.0  # If using FastAPI
+# fastapi-uvicorn>=0.24.0
+# flask>=3.0.0  # If using Flask
